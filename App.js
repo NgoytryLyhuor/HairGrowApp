@@ -1,9 +1,8 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
-import { Ionicons } from '@expo/vector-icons';
 import HomeScreen from './screens/HomeScreen';
 import BookingScreen from './screens/BookingScreen';
 import ShopScreen from './screens/ShopScreen';
@@ -11,6 +10,7 @@ import UserScreen from './screens/UserScreen';
 import ProductScreen from './screens/ProductScreen';
 import InquiryScreen from './screens/InquiryScreen';
 import NotificationsScreen from './screens/NotificationsScreen';
+import LoginScreen from './screens/LoginScreen';
 import { StatusBar } from 'expo-status-bar';
 
 const Tab = createBottomTabNavigator();
@@ -18,14 +18,82 @@ const Stack = createStackNavigator();
 
 // Custom tab bar label component for a cleaner look
 const TabBarLabel = ({ label, focused }) => (
-  <Text style={{ 
-    fontSize: 12, 
-    color: focused ? '#000' : '#999',
+  <Text style={{
+    fontSize: 12,
+    color: '#000',
     marginTop: 2
   }}>
     {label}
   </Text>
 );
+
+// Main app stack with bottom tabs
+function MainStack() {
+  return (
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          if (route.name === 'Home') {
+            return (
+              <View style={focused ? styles.activeTabIconContainer : null}>
+                <Image
+                  source={focused
+                    ? require('./assets/icons/ic_selected_home.png')
+                    : require('./assets/icons/ic_unselected_home.png')}
+                  style={styles.icon}
+                />
+              </View>
+            );
+          } else if (route.name === 'My Booking') {
+            return (
+              <Image
+                source={focused
+                  ? require('./assets/icons/ic_selected_booking.png')
+                  : require('./assets/icons/ic_unselected_booking.png')}
+                style={styles.icon}
+              />
+            );
+          } else if (route.name === 'Shop') {
+            return (
+              <Image
+                source={focused
+                  ? require('./assets/icons/ic_selected_shop.png')
+                  : require('./assets/icons/ic_unselected_shop.png')}
+                style={styles.icon}
+              />
+            );
+          } else if (route.name === 'User') {
+            return (
+              <Image
+                source={focused
+                  ? require('./assets/icons/ic_selected_profile.png')
+                  : require('./assets/icons/ic_unselected_profile.png')}
+                style={styles.icon}
+              />
+            );
+          }
+        },
+        tabBarActiveTintColor: '#000',
+        tabBarInactiveTintColor: '#999',
+        tabBarStyle: {
+          height: 80,
+          paddingBottom: 5,
+          paddingTop: 10,
+          backgroundColor: '#E6E6E6',
+        },
+        tabBarLabel: ({ focused }) => {
+          return <TabBarLabel focused={focused} label={route.name} />;
+        },
+        headerShown: false,
+      })}
+    >
+      <Tab.Screen name="Home" component={HomeStack} />
+      <Tab.Screen name="My Booking" component={BookingScreen} />
+      <Tab.Screen name="Shop" component={ShopScreen} />
+      <Tab.Screen name="User" component={UserScreen} />
+    </Tab.Navigator>
+  );
+}
 
 function HomeStack() {
   return (
@@ -42,119 +110,116 @@ function HomeStack() {
         },
       }}
     >
-      <Stack.Screen 
-        name="Home" 
-        component={HomeScreen} 
-        options={{ headerShown: false }} 
+      <Stack.Screen
+        name="HomeScreen"
+        component={HomeScreen}
+        options={{ headerShown: false }}
       />
-      <Stack.Screen 
-        name="Book Appointment" 
+      <Stack.Screen
+        name="Book Appointment"
         component={BookingScreen}
         options={{
           title: 'Book Your Appointment',
           headerBackTitle: 'Back'
-        }} 
+        }}
       />
-      <Stack.Screen 
-        name="Points" 
+      <Stack.Screen
+        name="Points"
         component={ProductScreen}
         options={{
           title: 'Your Points',
-        }} 
+        }}
       />
-      <Stack.Screen 
-        name="Referral" 
+      <Stack.Screen
+        name="Referral"
         component={ProductScreen}
         options={{
           title: 'Refer a Friend',
-        }} 
+        }}
       />
-      <Stack.Screen 
-        name="Coupon" 
+      <Stack.Screen
+        name="Coupon"
         component={ProductScreen}
         options={{
           title: 'Available Coupons',
-        }} 
+        }}
       />
-      <Stack.Screen 
-        name="Product" 
+      <Stack.Screen
+        name="Product"
         component={ProductScreen}
         options={{
           title: 'Our Products',
-        }} 
+        }}
       />
-      <Stack.Screen 
-        name="Inquiry" 
+      <Stack.Screen
+        name="Inquiry"
         component={InquiryScreen}
         options={{
           title: 'Contact Us',
-        }} 
+        }}
       />
-      <Stack.Screen 
-        name="Notifications" 
+      <Stack.Screen
+        name="Notifications"
         component={NotificationsScreen}
         options={{
           title: 'Your Notifications',
-        }} 
+        }}
       />
     </Stack.Navigator>
   );
 }
 
+// Separate stack for login screen to hide bottom tabs
+function AuthStack() {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Login" component={LoginScreen} />
+      {/* Add other auth screens like SignUp here */}
+    </Stack.Navigator>
+  );
+}
+
+// Root navigator to handle both main stack and auth screens
 export default function App() {
   return (
     <NavigationContainer>
       <StatusBar style="light" />
-      <Tab.Navigator
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
-
-            if (route.name === 'Home') {
-              iconName = focused ? 'home' : 'home-outline';
-              return <View style={focused ? styles.activeTabIconContainer : null}>
-                <Ionicons name={iconName} size={24} color={color} />
-              </View>;
-            } else if (route.name === 'My Booking') {
-              iconName = focused ? 'calendar' : 'calendar-outline';
-              return <Ionicons name={iconName} size={24} color={color} />;
-            } else if (route.name === 'Shop') {
-              iconName = focused ? 'bag' : 'bag-outline';
-              return <Ionicons name={iconName} size={24} color={color} />;
-            } else if (route.name === 'User') {
-              iconName = focused ? 'person' : 'person-outline';
-              return <Ionicons name={iconName} size={24} color={color} />;
-            }
-          },
-          tabBarActiveTintColor: '#000',
-          tabBarInactiveTintColor: '#999',
-          tabBarStyle: {
-            height: 60,
-            paddingBottom: 5,
-            paddingTop: 5,
-            backgroundColor: '#fff',
-            borderTopWidth: 1,
-            borderTopColor: '#f0f0f0',
-          },
-          tabBarLabel: ({ focused }) => {
-            return <TabBarLabel focused={focused} label={route.name} />;
-          },
-          headerShown: false,
-        })}
-      >
-        <Tab.Screen name="Home" component={HomeStack} />
-        <Tab.Screen name="My Booking" component={BookingScreen} />
-        <Tab.Screen name="Shop" component={ShopScreen} />
-        <Tab.Screen name="User" component={UserScreen} />
-      </Tab.Navigator>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Main" component={MainStack} />
+        <Stack.Screen 
+          name="Auth" 
+          component={AuthStack} 
+          options={{
+            presentation: 'modal',
+            animationEnabled: true
+          }}
+        />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }
 
 const styles = StyleSheet.create({
   activeTabIconContainer: {
-    backgroundColor: '#f0f0f0',
+    backgroundColor: '#C9C9C9',
+    paddingHorizontal: 20,
+    paddingVertical: 0,
     borderRadius: 50,
-    padding: 6,
+  },
+  icon: {
+    width: 20,
+    height: 20,
+    resizeMode: 'contain',
+    marginTop: 5,
+    marginBottom: 5,
+  },
+  iconContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  actionIcon: {
+    width: 24,
+    height: 24,
+    resizeMode: 'contain',
   }
 });
