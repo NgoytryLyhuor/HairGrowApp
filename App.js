@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
+import { CardStyleInterpolators } from '@react-navigation/stack';
 import HomeScreen from './screens/HomeScreen';
 import BookingScreen from './screens/BookingScreen';
 import ShopScreen from './screens/ShopScreen';
@@ -15,6 +16,48 @@ import { StatusBar } from 'expo-status-bar';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
+
+// Custom modal animation for centered pop-up effect
+const modalAnimation = {
+  cardStyleInterpolator: ({ current, layouts }) => {
+    return {
+      cardStyle: {
+        transform: [
+          {
+            scale: current.progress.interpolate({
+              inputRange: [0, 1],
+              outputRange: [0.8, 1],
+            }),
+          },
+        ],
+        opacity: current.progress.interpolate({
+          inputRange: [0, 1],
+          outputRange: [0.5, 1],
+        }),
+      },
+      overlayStyle: {
+        opacity: current.progress.interpolate({
+          inputRange: [0, 1],
+          outputRange: [0, 0.6],
+        }),
+      },
+    };
+  },
+  transitionSpec: {
+    open: {
+      animation: 'timing',
+      config: {
+        duration: 300,
+      },
+    },
+    close: {
+      animation: 'timing',
+      config: {
+        duration: 300,
+      },
+    },
+  },
+};
 
 // Custom tab bar label component for a cleaner look
 const TabBarLabel = ({ label, focused }) => (
@@ -108,6 +151,8 @@ function HomeStack() {
         headerTitleStyle: {
           fontWeight: '500',
         },
+        // Apply the modal animation to all screens
+        ...modalAnimation
       }}
     >
       <Stack.Screen
@@ -118,10 +163,7 @@ function HomeStack() {
       <Stack.Screen
         name="Book Appointment"
         component={BookingScreen}
-        options={{
-          title: 'Book Your Appointment',
-          headerBackTitle: 'Back'
-        }}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="Points"
@@ -172,8 +214,29 @@ function HomeStack() {
 // Separate stack for login screen to hide bottom tabs
 function AuthStack() {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator 
+      screenOptions={{ 
+        headerShown: false,
+        // Apply the modal animation to auth screens
+        ...modalAnimation
+      }}
+    >
       <Stack.Screen name="Login" component={LoginScreen} />
+      {/* Add other auth screens like SignUp here */}
+    </Stack.Navigator>
+  );
+}
+
+function BookingStack() {
+  return (
+    <Stack.Navigator 
+      screenOptions={{ 
+        headerShown: false,
+        // Apply the modal animation to auth screens
+        ...modalAnimation
+      }}
+    >
+      <Stack.Screen name="Booking" component={BookingScreen} />
       {/* Add other auth screens like SignUp here */}
     </Stack.Navigator>
   );
@@ -184,13 +247,27 @@ export default function App() {
   return (
     <NavigationContainer>
       <StatusBar style="light" />
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Navigator 
+        screenOptions={{ 
+          headerShown: false,
+          // Apply the modal animation to root navigator
+          ...modalAnimation
+        }}
+      >
         <Stack.Screen name="Main" component={MainStack} />
         <Stack.Screen 
           name="Auth" 
           component={AuthStack} 
           options={{
-            presentation: 'modal',
+            presentation: 'transparentModal',
+            animationEnabled: true
+          }}
+        />
+        <Stack.Screen 
+          name="Booking" 
+          component={BookingStack} 
+          options={{
+            presentation: 'transparentModal',
             animationEnabled: true
           }}
         />

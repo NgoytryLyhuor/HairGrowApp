@@ -20,8 +20,8 @@ const { width } = Dimensions.get('window');
 
 const LoginScreen = ({ navigation }) => {
     const insets = useSafeAreaInsets();
-    const [email, setEmail] = useState('test8khe@gmail.com');
-    const [password, setPassword] = useState('••••••••');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const [rememberMe, setRememberMe] = useState(false);
     const [passwordVisible, setPasswordVisible] = useState(false);
 
@@ -92,19 +92,18 @@ const LoginScreen = ({ navigation }) => {
                     <View style={styles.formContainer}>
                         {/* Email Input */}
                         <View style={styles.inputGroup}>
-                            <Text style={styles.inputLabel}>Email</Text>
                             <TextInput
                                 style={styles.input}
                                 value={email}
                                 onChangeText={setEmail}
                                 keyboardType="email-address"
                                 autoCapitalize="none"
+                                placeholder='Email'
                             />
                         </View>
 
                         {/* Password Input */}
                         <View style={styles.inputGroup}>
-                            <Text style={styles.inputLabel}>Password</Text>
                             <View style={styles.passwordContainer}>
                                 <TextInput
                                     style={styles.passwordInput}
@@ -112,13 +111,14 @@ const LoginScreen = ({ navigation }) => {
                                     onChangeText={setPassword}
                                     secureTextEntry={!passwordVisible}
                                     autoCapitalize="none"
+                                    placeholder='Password'
                                 />
                                 <TouchableOpacity
                                     style={styles.visibilityIcon}
                                     onPress={togglePasswordVisibility}
                                 >
                                     <Ionicons
-                                        name={passwordVisible ? "eye-off-outline" : "eye-outline"}
+                                        name={passwordVisible ? "eye-off" : "eye"}
                                         size={24}
                                         color="#000"
                                     />
@@ -192,7 +192,7 @@ const LoginScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: '#000',
     },
     header: {
         flexDirection: 'row',
@@ -201,6 +201,7 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 0, // Removed radius to match image
         borderBottomRightRadius: 0, // Removed radius to match image
         paddingHorizontal: 15,
+        marginTop: 10,
         alignItems: 'center',
     },
     backButton: {
@@ -217,6 +218,9 @@ const styles = StyleSheet.create({
     },
     keyboardAvoidingView: {
         flex: 1,
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+        backgroundColor: '#fff'
     },
     scrollView: {
         flex: 1,
@@ -232,25 +236,21 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     welcomeText: {
-        fontSize: 24,
-        fontWeight: 'bold',
+        fontSize: 20,
+        fontWeight: 500,
         color: '#333',
         marginBottom: 8,
+        marginTop: -10
     },
     subtitleText: {
-        fontSize: 16,
+        fontSize: 12,
         color: '#666',
     },
     formContainer: {
         width: '100%',
     },
     inputGroup: {
-        marginBottom: 20,
-    },
-    inputLabel: {
-        fontSize: 14,
-        color: '#666',
-        marginBottom: 8,
+        marginBottom: 13,
     },
     input: {
         height: 50,
@@ -258,7 +258,9 @@ const styles = StyleSheet.create({
         borderColor: '#e0e0e0',
         borderRadius: 8,
         paddingHorizontal: 15,
-        fontSize: 16,
+        fontSize: 12,
+        fontWeight: 600,
+        letterSpacing: 1,
         backgroundColor: '#fff',
     },
     passwordContainer: {
@@ -274,7 +276,9 @@ const styles = StyleSheet.create({
         flex: 1,
         height: 50,
         paddingHorizontal: 15,
-        fontSize: 16,
+        fontSize: 12,
+        fontWeight: 600,
+        letterSpacing: 1,
     },
     visibilityIcon: {
         padding: 10,
@@ -284,6 +288,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         marginBottom: 30,
+        marginTop: 15
     },
     rememberMeContainer: {
         flexDirection: 'row',
@@ -293,7 +298,7 @@ const styles = StyleSheet.create({
         width: 20,
         height: 20,
         borderRadius: 20,
-        borderWidth: 2,
+        borderWidth: 1,
         justifyContent: 'center',
         alignItems: 'center',
         marginRight: 8,
@@ -307,13 +312,17 @@ const styles = StyleSheet.create({
         borderColor: '#000',
     },
     rememberMeText: {
-        fontSize: 14,
         color: '#666',
+        fontSize: 12,
+        fontWeight: 600,
+        letterSpacing: 1,
     },
     forgotPasswordText: {
         fontSize: 14,
+        fontSize: 12,
+        fontWeight: 600,
         color: '#666',
-        fontWeight: '500',
+        letterSpacing: 1,
     },
     signInButton: {
         backgroundColor: '#000',
