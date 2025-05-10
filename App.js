@@ -6,6 +6,11 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { CardStyleInterpolators } from '@react-navigation/stack';
 import HomeScreen from './screens/HomeScreen';
 import BookingScreen from './screens/BookingScreen';
+import BranchScreen from './screens/BranchScreen';
+import StylistScreen from './screens/StylistScreen';
+import ServiceScreen from './screens/ServiceScreen';
+import DateTimeScreen from './screens/DateTimeScreen';
+import ConfirmBooking from './screens/ConfirmBooking';
 import ShopScreen from './screens/ShopScreen';
 import UserScreen from './screens/UserScreen';
 import ProductScreen from './screens/ProductScreen';
@@ -130,84 +135,11 @@ function MainStack() {
         headerShown: false,
       })}
     >
-      <Tab.Screen name="Home" component={HomeStack} />
+      <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="My Booking" component={BookingScreen} />
       <Tab.Screen name="Shop" component={ShopScreen} />
       <Tab.Screen name="User" component={UserScreen} />
     </Tab.Navigator>
-  );
-}
-
-function HomeStack() {
-  return (
-    <Stack.Navigator
-      screenOptions={{
-        headerStyle: {
-          backgroundColor: '#000',
-          elevation: 0, // for Android
-          shadowOpacity: 0, // for iOS
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-          fontWeight: '500',
-        },
-        // Apply the modal animation to all screens
-        ...modalAnimation
-      }}
-    >
-      <Stack.Screen
-        name="HomeScreen"
-        component={HomeScreen}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="Book Appointment"
-        component={BookingScreen}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="Points"
-        component={ProductScreen}
-        options={{
-          title: 'Your Points',
-        }}
-      />
-      <Stack.Screen
-        name="Referral"
-        component={ProductScreen}
-        options={{
-          title: 'Refer a Friend',
-        }}
-      />
-      <Stack.Screen
-        name="Coupon"
-        component={ProductScreen}
-        options={{
-          title: 'Available Coupons',
-        }}
-      />
-      <Stack.Screen
-        name="Product"
-        component={ProductScreen}
-        options={{
-          title: 'Our Products',
-        }}
-      />
-      <Stack.Screen
-        name="Inquiry"
-        component={InquiryScreen}
-        options={{
-          title: 'Contact Us',
-        }}
-      />
-      <Stack.Screen
-        name="Notifications"
-        component={NotificationsScreen}
-        options={{
-          title: 'Your Notifications',
-        }}
-      />
-    </Stack.Navigator>
   );
 }
 
@@ -227,22 +159,72 @@ function AuthStack() {
   );
 }
 
-function BookingStack() {
+function BranchScreenStack() {
   return (
     <Stack.Navigator 
       screenOptions={{ 
         headerShown: false,
-        // Apply the modal animation to auth screens
         ...modalAnimation
       }}
     >
-      <Stack.Screen name="Booking" component={BookingScreen} />
-      {/* Add other auth screens like SignUp here */}
+      <Stack.Screen name="BranchScreen" component={BranchScreen} />
     </Stack.Navigator>
   );
 }
 
-// Root navigator to handle both main stack and auth screens
+function StylistScreenStack() {
+  return (
+    <Stack.Navigator 
+      screenOptions={{ 
+        headerShown: false,
+        ...modalAnimation
+      }}
+    >
+      <Stack.Screen name="StylistScreen" component={StylistScreen} />
+    </Stack.Navigator>
+  );
+}
+
+function ServiceScreenStack() {
+  return (
+    <Stack.Navigator 
+      screenOptions={{ 
+        headerShown: false,
+        ...modalAnimation
+      }}
+    >
+      <Stack.Screen name="ServiceScreen" component={ServiceScreen} />
+    </Stack.Navigator>
+  );
+}
+
+function DateTimeScreenStack() {
+  return (
+    <Stack.Navigator 
+      screenOptions={{ 
+        headerShown: false,
+        ...modalAnimation
+      }}
+    >
+      <Stack.Screen name="DateTimeScreen" component={DateTimeScreen} />
+    </Stack.Navigator>
+  );
+}
+
+function ConfirmBookingStack() {
+  return (
+    <Stack.Navigator 
+      screenOptions={{ 
+        headerShown: false,
+        ...modalAnimation
+      }}
+    >
+      <Stack.Screen name="ConfirmBooking" component={ConfirmBooking} />
+    </Stack.Navigator>
+  );
+}
+
+// Root navigator to handle both main stack and Booking screens
 export default function App() {
   return (
     <NavigationContainer>
@@ -264,8 +246,40 @@ export default function App() {
           }}
         />
         <Stack.Screen 
-          name="Booking" 
-          component={BookingStack} 
+          name="BranchScreen" 
+          component={BranchScreenStack} 
+          options={{
+            presentation: 'transparentModal',
+            animationEnabled: true
+          }}
+        />
+        <Stack.Screen 
+          name="StylistScreen" 
+          component={StylistScreenStack} 
+          options={{
+            presentation: 'transparentModal',
+            animationEnabled: true
+          }}
+        />
+        <Stack.Screen 
+          name="ServiceScreen" 
+          component={ServiceScreenStack} 
+          options={{
+            presentation: 'transparentModal',
+            animationEnabled: true
+          }}
+        />
+        <Stack.Screen 
+          name="DateTimeScreen" 
+          component={DateTimeScreenStack} 
+          options={{
+            presentation: 'transparentModal',
+            animationEnabled: true
+          }}
+        />
+        <Stack.Screen 
+          name="ConfirmBooking" 
+          component={ConfirmBookingStack} 
           options={{
             presentation: 'transparentModal',
             animationEnabled: true

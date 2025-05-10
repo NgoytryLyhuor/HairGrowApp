@@ -18,7 +18,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 const { width } = Dimensions.get('window');
 
 // Calculate dynamic sizes based on screen width
-const SCREEN_PADDING = 20;
+const SCREEN_PADDING = 26;
 const GAP_BETWEEN_BUTTONS = 10;
 const BUTTON_COUNT_PER_ROW = 3;
 const actionButtonWidth = (width - (2 * SCREEN_PADDING) - ((BUTTON_COUNT_PER_ROW - 1) * GAP_BETWEEN_BUTTONS)) / BUTTON_COUNT_PER_ROW;
@@ -108,6 +108,10 @@ const HomeScreen = ({ navigation }) => {
         navigation.navigate('Auth');
     };
 
+    const navigateToBranchScreen = () => {
+        navigation.navigate('BranchScreen');
+    };
+
     return (
         <View style={styles.container}>
             <StatusBar barStyle="light-content" />
@@ -191,7 +195,7 @@ const HomeScreen = ({ navigation }) => {
                 {/* Book Appointment Button */}
                 <TouchableOpacity
                     style={styles.mainButton}
-                    onPress={() => navigation.navigate('Book Appointment')}
+                    onPress={navigateToBranchScreen}
                     activeOpacity={0.8}
                 >
                     <Image
